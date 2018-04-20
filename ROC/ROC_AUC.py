@@ -48,6 +48,8 @@ for i in range (0,n_klas):
     swoistosc = 0
     j = 1
 
+    print("--------------------------OBLICZANIE PUNKTOW KRZYWEJ ROC DLA KLASY "+str(i)+"--------------------------")
+
     while j < len(Li)-1:
 
         fp = 0 #dla kazdego przejscia po liscie zerujemy fp tp fn i tn
@@ -73,6 +75,7 @@ for i in range (0,n_klas):
                   czulosc = float(tp / (tp + fn))
         if((tn + fp) > 0):
                swoistosc = float(tn / (tn +fp))
+
         if([i,round(float(1-swoistosc),3),round(czulosc,3)] not in ROC):
                ROC.append([i,round(float(1-swoistosc),3),round(czulosc,3)])
 
@@ -103,8 +106,8 @@ AUC = [0]*n_klas
 
 #Wyliczanie AUC - metoda prostokatow
 for i in range (0,len(swoistosci)):
-       for j in range (0,len(czulosci[i])):
-           AUC[i] = AUC[i] + czulosci[i][j]*1/len(czulosci[i])
+       for j in range (1,len(czulosci[i])):
+           AUC[i] = AUC[i] + czulosci[i][j-1]*(swoistosci[i][j] - swoistosci[i][j-1])
 
 #RYSSOWANIE WYKRESU
 legenda = []
